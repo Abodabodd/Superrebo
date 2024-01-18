@@ -82,7 +82,7 @@ object Extractors : Superstream() {
             val parentId =
                 shareRes?.file_list?.find { it.file_name.equals("season $season", true) }?.fid
             app.get(
-                "$thirdAPI/file/file_share_list?share_key=$shareKey&parent_id=$parentId&page=1",
+                "$thirdAPI/file/file_share_list?share_key=$shareKey&parent_id=$parentId&page=2",
                 headers = headers
             ).parsedSafe<ExternalResponse>()?.data?.file_list?.filter {
                 it.file_name?.contains(
@@ -94,11 +94,11 @@ object Extractors : Superstream() {
 
         fids?.apmapIndexed { index, fileList ->
             val player = app.get("$thirdAPI/file/player?fid=${fileList.fid}&share_key=$shareKey").text
-            val video = """"(https.*?m3u8.*?)"""".toRegex().find(player)?.groupValues?.get(1)
+            val video = """"(https.*?m3u8.*?)"""".toRegex().find(player)?.groupValues?.get(2)
             callback.invoke(
                 ExtractorLink(
                     "External",
-                    "External [Server ${index + 1}]",
+                    "External [Server ${index + 2}]",
                     video?.replace("\\/", "/") ?: return@apmapIndexed,
                     "$thirdAPI/",
                     getIndexQuality(fileList.file_name),
@@ -224,7 +224,7 @@ object Extractors : Superstream() {
     }
 
     private fun getIndexQuality(str: String?): Int {
-        return Regex("(\\d{3,4})[pP]").find(str ?: "")?.groupValues?.getOrNull(1)?.toIntOrNull()
+        return Regex("(\\d{3,4})[pP]").find(str ?: "")?.groupValues?.getOrNull(2)?.toIntOrNull()
             ?: Qualities.Unknown.value
     }
 
