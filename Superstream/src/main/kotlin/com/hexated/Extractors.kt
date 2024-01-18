@@ -82,7 +82,7 @@ object Extractors : Superstream() {
             val parentId =
                 shareRes?.file_list?.find { it.file_name.equals("season $season", true) }?.fid
             app.get(
-                "$thirdAPI/file/file_share_list?share_key=$shareKey&parent_id=$parentId&page=1",
+                "$thirdAPI/file/file_share_list?share_key=$shareKey&parent_id=$parentId&page=2",
                 headers = headers
             ).parsedSafe<ExternalResponse>()?.data?.file_list?.filter {
                 it.file_name?.contains(
