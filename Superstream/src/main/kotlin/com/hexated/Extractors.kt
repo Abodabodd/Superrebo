@@ -98,7 +98,7 @@ object Extractors : Superstream() {
             callback.invoke(
                 ExtractorLink(
                     "External",
-                    "External [Server ${index + 2}]",
+                    "External [Server ${index + 1}]",
                     video?.replace("\\/", "/") ?: return@apmapIndexed,
                     "$thirdAPI/",
                     getIndexQuality(fileList.file_name),
